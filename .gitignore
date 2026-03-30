@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+build/
+
+# environment
+.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vite
+.vite/
+
+# optional
+coverage/
