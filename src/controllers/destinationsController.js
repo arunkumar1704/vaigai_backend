@@ -1,14 +1,12 @@
-// routes/destinations.js
-const router = require('express').Router()
-const { Destination } = require('../models')
+﻿import { Destination } from '../models/index.js'
 
-router.get('/', async (req, res) => {
+const listDestinations = async (req, res) => {
   try {
     const destinations = await Destination.find({ active: true }).sort('-createdAt')
     res.json(destinations)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
+}
 
-module.exports = router
+export { listDestinations }
