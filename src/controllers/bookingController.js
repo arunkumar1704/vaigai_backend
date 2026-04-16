@@ -33,6 +33,7 @@ const createBooking = async (req, res) => {
       totalAmount,
       specialRequests,
       status: "Pending",
+      isRead: false,
     });
 
     const formattedDate = travelDateValue

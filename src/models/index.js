@@ -41,6 +41,8 @@ const bookingSchema = new mongoose.Schema({
   specialRequests: String,
   status: { type: String, enum: ['Pending', 'Confirmed', 'Cancelled'], default: 'Pending' },
   paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Refunded'], default: 'Pending' },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
 }, { timestamps: true })
 
 const messageSchema = new mongoose.Schema({
@@ -48,7 +50,14 @@ const messageSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: String,
   message: { type: String, required: true },
-  read: { type: Boolean, default: false },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
+}, { timestamps: true })
+
+const subscriptionSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
 }, { timestamps: true })
 
 const adminSchema = new mongoose.Schema({
@@ -57,10 +66,26 @@ const adminSchema = new mongoose.Schema({
   password: { type: String, required: true },
 }, { timestamps: true })
 
+const siteSettingsSchema = new mongoose.Schema({
+  logo: String,
+  address: String,
+  phone: String,
+  email: String,
+  socialLinks: {
+    facebook: String,
+    instagram: String,
+    twitter: String,
+    youtube: String,
+    whatsapp: String,
+  },
+}, { timestamps: true })
+
 const Destination = mongoose.model('Destination', destinationSchema)
 const Package = mongoose.model('Package', packageSchema)
 const Booking = mongoose.model('Booking', bookingSchema)
 const Message = mongoose.model('Message', messageSchema)
+const Subscription = mongoose.model('Subscription', subscriptionSchema)
 const Admin = mongoose.model('Admin', adminSchema)
+const SiteSettings = mongoose.model('SiteSettings', siteSettingsSchema)
 
-export { Destination, Package, Booking, Message, Admin }
+export { Destination, Package, Booking, Message, Subscription, Admin, SiteSettings }

@@ -15,7 +15,7 @@ const createContactMessage = async (req, res) => {
   }
 
   try {
-    const msg = await Message.create({ name, email, phone, message });
+    const msg = await Message.create({ name, email, phone, message, isRead: false });
 
     const mailUser = process.env.SMTP_USER || process.env.EMAIL_USER;
     const mailPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
