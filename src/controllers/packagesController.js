@@ -1,16 +1,15 @@
-const router = require('express').Router()
-const { Package } = require('../models')
+﻿import { Package } from '../models/index.js'
 
-router.get('/', async (req, res) => {
+const listPackages = async (req, res) => {
   try {
     const packages = await Package.find({ active: true }).sort('-createdAt')
     res.json(packages)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
+}
 
-router.get('/:id', async (req, res) => {
+const getPackageById = async (req, res) => {
   try {
     const pkg = await Package.findById(req.params.id)
     if (!pkg) return res.status(404).json({ message: 'Package not found' })
@@ -18,6 +17,6 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
+}
 
-module.exports = router
+export { listPackages, getPackageById }

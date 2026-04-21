@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
+﻿import mongoose from 'mongoose'
 
-// ─── Destination ──────────────────────────────────────────────────────────────
 const destinationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   tagline: String,
@@ -12,7 +11,6 @@ const destinationSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
 }, { timestamps: true })
 
-// ─── Package ──────────────────────────────────────────────────────────────────
 const packageSchema = new mongoose.Schema({
   name: { type: String, required: true },
   subtitle: String,
@@ -30,7 +28,6 @@ const packageSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
 }, { timestamps: true })
 
-// ─── Booking ──────────────────────────────────────────────────────────────────
 const bookingSchema = new mongoose.Schema({
   bookingId: { type: String, default: () => 'BK' + Date.now().toString().slice(-6) },
   packageId: String,
@@ -44,28 +41,51 @@ const bookingSchema = new mongoose.Schema({
   specialRequests: String,
   status: { type: String, enum: ['Pending', 'Confirmed', 'Cancelled'], default: 'Pending' },
   paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Refunded'], default: 'Pending' },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
 }, { timestamps: true })
 
-// ─── Message ──────────────────────────────────────────────────────────────────
 const messageSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   phone: String,
   message: { type: String, required: true },
-  read: { type: Boolean, default: false },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
 }, { timestamps: true })
 
-// ─── Admin ────────────────────────────────────────────────────────────────────
+const subscriptionSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  isRead: { type: Boolean, default: false },
+  read: { type: Boolean, default: undefined },
+}, { timestamps: true })
+
 const adminSchema = new mongoose.Schema({
   name: { type: String, default: 'Admin' },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 }, { timestamps: true })
 
-module.exports = {
-  Destination: mongoose.model('Destination', destinationSchema),
-  Package: mongoose.model('Package', packageSchema),
-  Booking: mongoose.model('Booking', bookingSchema),
-  Message: mongoose.model('Message', messageSchema),
-  Admin: mongoose.model('Admin', adminSchema),
-}
+const siteSettingsSchema = new mongoose.Schema({
+  logo: String,
+  address: String,
+  phone: String,
+  email: String,
+  socialLinks: {
+    facebook: String,
+    instagram: String,
+    twitter: String,
+    youtube: String,
+    whatsapp: String,
+  },
+}, { timestamps: true })
+
+const Destination = mongoose.model('Destination', destinationSchema)
+const Package = mongoose.model('Package', packageSchema)
+const Booking = mongoose.model('Booking', bookingSchema)
+const Message = mongoose.model('Message', messageSchema)
+const Subscription = mongoose.model('Subscription', subscriptionSchema)
+const Admin = mongoose.model('Admin', adminSchema)
+const SiteSettings = mongoose.model('SiteSettings', siteSettingsSchema)
+
+export { Destination, Package, Booking, Message, Subscription, Admin, SiteSettings }
